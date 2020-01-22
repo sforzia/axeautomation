@@ -1,6 +1,11 @@
 const fs = require("fs");
 var AxeBuilder = require("axe-webdriverjs");
-var { Builder, By, Key, until } = require("selenium-webdriver");
+var {
+  Builder,
+  By,
+  Key,
+  until
+} = require("selenium-webdriver");
 
 (async function example() {
   let violations = {};
@@ -16,10 +21,18 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     await driver.get(navigateTo);
-    await driver.wait(until.elementLocated(By.id("input__playername")), 20000);
-    AxeBuilder(driver).analyze(function(err, results) {
-      if (!err) {
-        violations[pages.shift()] = results.violations;
+    await driver.wait(until.elementLocated(By.id("input__playername")), 20000); // page loaded
+    AxeBuilder(driver).analyze(function (err, results) {
+      if (err) {
+        violations[pages.shift()] = {
+          error: err,
+          violations: {}
+        };
+      } else {
+        violations[pages.shift()] = {
+          error: null,
+          violations: results.violations
+        };
       }
     });
     await driver
@@ -27,14 +40,22 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
       .sendKeys("test user 1");
     await driver.sleep(1000);
     let nextButton = await driver.findElement(
-      By.id("next-button-player-name-screen")
+      By.id("player_name_next")
     );
     await nextButton.setAttribute("class", classes.join(" "));
     nextButton.click();
     await driver.sleep(1000);
-    AxeBuilder(driver).analyze(function(err, results) {
-      if (!err) {
-        violations[pages.shift()] = results.violations;
+    AxeBuilder(driver).analyze(function (err, results) {
+      if (err) {
+        violations[pages.shift()] = {
+          error: err,
+          violations: {}
+        };
+      } else {
+        violations[pages.shift()] = {
+          error: null,
+          violations: results.violations
+        };
       }
     });
   } catch (ex) {
@@ -42,7 +63,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
   } finally {
     console.log("finally");
     const fileName = "test_report_" + new Date().getTime() + ".json";
-    fs.writeFile(fileName, JSON.stringify(violations), "utf8", function(err) {
+    fs.writeFile(fileName, JSON.stringify(violations), "utf8", function (err) {
       if (err) {
         console.log(
           "An error occurred while writing file to the system: ",
@@ -56,29 +77,3 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.quit();
   }
 })();
-
-const getViolationsForCurrentPage = (driver, cb) => {
-  AxeBuilder(driver).analyze(function(err, results) {
-    console.log("AxeBuilder: ", err, results);
-    let cbData = {};
-    if (err) {
-      cbData = err;
-    } else {
-      cbData = results.violations;
-    }
-    if (cb && typeof cb === "function") {
-      cb(cbData);
-    }
-  });
-};
-
-// driver.get("https://www.google.co.in").then(function() {
-//     await driver.findElement
-// //   AxeBuilder(driver).analyze(function(err, results) {
-// //     if (err) {
-// //       console.log("error occurred[err]: ", err);
-// //       // Handle error somehow
-// //     }
-// //     console.log(results.violations);
-// //   });
-// });
