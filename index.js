@@ -23,6 +23,10 @@ var {
     await driver.get(navigateTo);
     await driver.wait(until.elementLocated(By.id("input__playername")), 20000); // page loaded
     AxeBuilder(driver).analyze(function (err, results) {
+      console.log({
+        err,
+        results
+      }, results.violations);
       if (err) {
         violations[pages.shift()] = {
           error: err,
@@ -40,11 +44,9 @@ var {
       .sendKeys("test user 1");
     await driver.sleep(1000);
     let nextButton = await driver.findElement(
-      By.id("player_name_next")
+      By.id("player_next_name")
     );
-    await nextButton.setAttribute("class", classes.join(" "));
     nextButton.click();
-    await driver.sleep(1000);
     AxeBuilder(driver).analyze(function (err, results) {
       if (err) {
         violations[pages.shift()] = {
