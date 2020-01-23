@@ -11,8 +11,20 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     "page4player2mascot",
     "page5firstWelcomeScreen"
   ];
-  let navigateTo =
-    "http://magicwebs.magicsw.com/SchoolJam_Games/schooljam/dev/pairs/";
+  const baseURL = "http://magicwebs.magicsw.com/SchoolJam_Games/schooljam";
+  let buildToTest = "pairs";
+  let environment = "/dev/";
+  if (process.env.npm_config_activity) {
+    buildToTest = process.env.npm_config_activity.toLowerCase();
+  }
+  if (
+    process.env.npm_config_env &&
+    process.env.npm_config_env.toLowerCase() === "client"
+  ) {
+    environment = "/";
+  }
+  let navigateTo = baseURL + environment + buildToTest;
+  console.log("Navigating to: ", navigateTo);
   const mascots = [0, 1, 2, 3, 4, 5];
   let driver = await new Builder().forBrowser("chrome").build();
   try {
