@@ -11,7 +11,11 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     "page4player2mascot",
     "page5firstWelcomeScreen",
     "page6ActivityScreen",
-    "page6ActivityScreenWithHelpPopupOpen"
+    "page6ActivityScreenWithHelpPopupOpen",
+    "page7GreetingScreen",
+    "page8ResultScreen",
+    "page9TakeScreenShotScreen",
+    "page10FinishScreen"
   ];
   const baseURL = "http://magicwebs.magicsw.com/SchoolJam_Games/schooljam";
   let buildToTest = "pairs";

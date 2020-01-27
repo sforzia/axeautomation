@@ -14,5 +14,8 @@
     "axe-core": "^3.4.1",
     "axe-webdriverjs": "^2.3.0",
     "selenium-webdriver": "^4.0.0-alpha.5"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
