@@ -1,0 +1,36 @@
+html,
+body {
+  padding: 0;
+  margin: 10px;
+}
+
+.pages {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.pages .page {
+  margin: 5px;
+  width: 350px;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 2px solid darkcyan;
+}
+
+.pages .page .page-title {
+  font-weight: 700;
+}
+
+.pages .page:hover {
+  background: lightblue;
+}
+
+.pages .page.no-violation-found:hover {
+  cursor: default;
+  background: lightgreen;
+}

@@ -17,6 +17,20 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     "page9TakeScreenShotScreen",
     "page10FinishScreen"
   ];
+  let pagesMapping = {
+    page1player1name: "Player 1 Name Page",
+    page2player1mascot: "Player 1 Mascot Page",
+    page3player2name: "Player 1 Name Screen",
+    page4player2mascot: "Player 2 Mascot Page",
+    page5firstWelcomeScreen: "First Welcome Page",
+    page6ActivityScreen: "Activity Page",
+    page6ActivityScreenWithHelpPopupOpen:
+      "Activity With Help Text Popup Opened",
+    page7GreetingScreen: "Greetings Page",
+    page8ResultScreen: "Result Screen",
+    page9TakeScreenShotScreen: "Take Screenshot Page",
+    page10FinishScreen: "Finish Screen"
+  };
   const baseURL = "http://magicwebs.magicsw.com/SchoolJam_Games/schooljam";
   let buildToTest = "pairs";
   let environment = "/dev/";
@@ -44,7 +58,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.wait(until.elementLocated(By.id("input__playername")), 40000); // page loaded
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     await driver
@@ -55,7 +69,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(1000);
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     let randomMascot = mascots.splice(
@@ -70,7 +84,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(300);
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     await driver
@@ -81,7 +95,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(500);
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     randomMascot = mascots.splice(
@@ -96,7 +110,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(300);
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     const readyButton = driver.findElement(By.id("gameReadyButton"));
@@ -104,7 +118,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(300);
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     const popupHeader1 = await driver.findElement(By.id("popupHeader1"));
@@ -112,7 +126,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(300);
     await AxeBuilder(driver).analyze(function(err, results) {
       const error = err ? err : null;
-      const result = results ? results : {};
+      const result = results ? results.violations : {};
       violations[pages.shift()] = { error, result };
     });
     const popupHeader1Close = await driver.findElement(
@@ -234,6 +248,63 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
         );
       } else {
         console.log("File is successfully written.");
+        let html = `<!DOCTYPE html>
+                      <html lang="en">
+                      <head>
+                        <meta charset="UTF-8"> 
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Test Report</title>
+                        <link rel="stylesheet" href="style.css">
+                        <script>
+                          const data = ${JSON.stringify(violations)};
+                          function show(page) {
+                            if(data && page && data[page] && !data[page].error && data[page].result && data[page].result.length) {
+                              let v = data[page].result;
+                              let popupData = '<div class="violations">';
+                              for(let iter = 0; iter < v.length; v++) {
+                                let _v = v[iter];
+                                popupData += '<div class="violation">';
+                                popupData += '<p class="description">Description: _v.description</p>';
+                                popupData += '<p class="help">Help: _v.help</p>';
+                                popupData += '<p class="impact">Impact: _v.impact</p><p>Impacted nodes/elements:</p>';
+                                for(let iter2 = 0; iter2 < _v.nodes.length; iter2++) {
+                                  let node = _v.nodes[iter2];
+                                  popupData += '<div class="violation-node">';
+                                  popupData += '<p class="f-summary">Failure Summary: node.failureSummary</p>';
+                                  popupData += '<p class="html">Node HTML: JSON.stringify(node.html)</p>';
+                                  popupData += '<p class="identifier">Identifier(s): node.target.join(" ")</p>';
+                                }
+                                popupData += '<p class="tags">WCAG tags: _v.tags.join(", ")</p></div>';
+                              }
+                              popupData += '</div>';
+                              console.log(popupData);
+                              document.getElementById('popup').innerHTML = popupData;
+                            }
+                          }
+                        </script>
+                      </head>
+                      <body>
+                        <div class='details-popup' id='popup'></div>
+                        <div class='pages'>`;
+        let pages = "";
+        for (let page in violations) {
+          const item = violations[page];
+          if (item.error) {
+            pages += `<button class='page' disabled='disabled' id=${page}><p class='page-title'>${pagesMapping[page]}</p><p class='page-violations'>Error while assessing, unable to test current page</p></button>`;
+          } else {
+            let check = item.result.length == 1 ? "issue" : "issues";
+            let disabled = item.result.length === 0 ? "disabled" : false;
+            let noV = item.result.length == 0 ? "no-violation-found" : "";
+            pages += `<button class='page ${noV}' onclick="show('${page}')" id=${page}><p class='page-title'>${pagesMapping[page]}</p><p class='page-violations'>${item.result.length} ${check}</p></button>`;
+          }
+        }
+        html += pages;
+        html += "</div></body></html>";
+        fs.writeFile("index.html", html, "utf8", function(err) {
+          console.log("file written");
+          if (!err) {
+          }
+        });
       }
       return err;
     });

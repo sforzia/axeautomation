@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+                      <html lang="en">
+                      <head>
+                        <meta charset="UTF-8"> 
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Test Report</title>
+                        <link rel="stylesheet" href="style.css">
+                        <script>
+                          const data = {"page1player1name":{"error":null,"result":[]},"page2player1mascot":{"error":null,"result":[]},"page3player2name":{"error":null,"result":[]},"page4player2mascot":{"error":null,"result":[]},"page5firstWelcomeScreen":{"error":null,"result":[]},"page6ActivityScreen":{"error":null,"result":[{"description":"Ensures all ARIA attributes have valid values","help":"ARIA attributes must conform to valid values","helpUrl":"https://dequeuniversity.com/rules/axe/3.4/aria-valid-attr-value?application=webdriverjs","id":"aria-valid-attr-value","impact":"critical","nodes":[{"all":[{"data":["aria-hidden=\"\""],"id":"aria-valid-attr-value","impact":"critical","message":"Invalid ARIA attribute value: aria-hidden=\"\"","relatedNodes":[]}],"any":[],"failureSummary":"Fix all of the following:\n  Invalid ARIA attribute value: aria-hidden=\"\"","html":"<button class=\"cloudeMovePage userSelection ng-scope\" id=\"popupHeader1\" ng-if=\"hideElement(&quot;popupHeader1&quot;)\" ng-click=\"showMoreInfo()\" role=\"button\" tabindex=\"0\" aria-label=\"Drag the groups to the correct bowl to feed the square pets.\" aria-hidden=\"\">","impact":"critical","none":[],"target":["#popupHeader1"]}],"tags":["cat.aria","wcag2a","wcag412"]}]},"page6ActivityScreenWithHelpPopupOpen":{"error":null,"result":[]}};
+                          function show(page) {
+                            if(data && page && data[page] && !data[page].error && data[page].result && data[page].result.length) {
+                              let v = data[page].result;
+                              let popupData = '<div class="violations">';
+                              for(let iter = 0; iter < v.length; v++) {
+                                let _v = v[iter];
+                                popupData += '<div class="violation">';
+                                popupData += '<p class="description">Description: _v.description</p>';
+                                popupData += '<p class="help">Help: _v.help</p>';
+                                popupData += '<p class="impact">Impact: _v.impact</p><p>Impacted nodes/elements:</p>';
+                                for(let iter2 = 0; iter2 < _v.nodes.length; iter2++) {
+                                  let node = _v.nodes[iter2];
+                                  popupData += '<div class="violation-node">';
+                                  popupData += '<p class="f-summary">Failure Summary: node.failureSummary</p>';
+                                  popupData += '<p class="html">Node HTML: JSON.stringify(node.html)</p>';
+                                  popupData += '<p class="identifier">Identifier(s): node.target.join(" ")</p>';
+                                }
+                                popupData += '<p class="tags">WCAG tags: _v.tags.join(", ")</p></div>';
+                              }
+                              popupData += '</div>';
+                              console.log(popupData);
+                              document.getElementById('popup').innerHTML = popupData;
+                            }
+                          }
+                        </script>
+                      </head>
+                      <body>
+                        <div class='details-popup' id='popup'></div>
+                        <div class='pages'><button class='page no-violation-found' onclick="show('page1player1name')" id=page1player1name><p class='page-title'>Player 1 Name Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page2player1mascot')" id=page2player1mascot><p class='page-title'>Player 1 Mascot Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page3player2name')" id=page3player2name><p class='page-title'>Player 1 Name Screen</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page4player2mascot')" id=page4player2mascot><p class='page-title'>Player 2 Mascot Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page5firstWelcomeScreen')" id=page5firstWelcomeScreen><p class='page-title'>First Welcome Page</p><p class='page-violations'>0 issues</p></button><button class='page ' onclick="show('page6ActivityScreen')" id=page6ActivityScreen><p class='page-title'>Activity Page</p><p class='page-violations'>1 issue</p></button><button class='page no-violation-found' onclick="show('page6ActivityScreenWithHelpPopupOpen')" id=page6ActivityScreenWithHelpPopupOpen><p class='page-title'>Activity With Help Text Popup Opened</p><p class='page-violations'>0 issues</p></button></div></body></html>
