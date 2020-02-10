@@ -4,11 +4,41 @@ body {
   margin: 10px;
 }
 
+xmp {
+  white-space: normal;
+}
+
 .pages {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: flex-start;
+}
+
+.details-popup {
+  display: none;
+  position: relative;
+  background: rgba(128, 128, 128, 0.3);
+}
+
+.details-popup.show-popup {
+  display: block;
+}
+
+.details-popup .violations {
+  display: flex;
+  flex-wrap: wrap;
+  background: white;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.violations .violation {
+  width: 600px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 2px solid black;
 }
 
 .pages .page {

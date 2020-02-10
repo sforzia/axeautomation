@@ -14,25 +14,25 @@
                               for(let iter = 0; iter < v.length; v++) {
                                 let _v = v[iter];
                                 popupData += '<div class="violation">';
-                                popupData += '<p class="description">Description: _v.description</p>';
-                                popupData += '<p class="help">Help: _v.help</p>';
-                                popupData += '<p class="impact">Impact: _v.impact</p><p>Impacted nodes/elements:</p>';
+                                popupData += '<p class="description">Description: ' + _v.description + '</p>';
+                                popupData += '<p class="help">Help: ' + _v.help + '</p>';
+                                popupData += '<p class="impact">Impact: ' + _v.impact + '</p><p>Impacted nodes/elements:</p>';
                                 for(let iter2 = 0; iter2 < _v.nodes.length; iter2++) {
                                   let node = _v.nodes[iter2];
                                   popupData += '<div class="violation-node">';
-                                  popupData += '<p class="f-summary">Failure Summary: node.failureSummary</p>';
-                                  popupData += '<p class="html">Node HTML: JSON.stringify(node.html)</p>';
-                                  popupData += '<p class="identifier">Identifier(s): node.target.join(" ")</p>';
+                                  popupData += '<p class="f-summary">Failure Summary: ' + node.failureSummary + '</p>';
+                                  popupData += '<p class="html">Node HTML: <xmp>' + node.html + '</xmp></p>';
+                                  popupData += '<p class="identifier">Identifier(s): ' + node.target.join(" ") + '</p>';
                                 }
-                                popupData += '<p class="tags">WCAG tags: _v.tags.join(", ")</p></div>';
+                                popupData += '<p class="tags">WCAG tags: ' + _v.tags.join(", ") + '</p></div>';
                               }
                               popupData += '</div>';
                               console.log(popupData);
                               document.getElementById('popup').innerHTML = popupData;
+                              document.getElementById("popup").classList.add("show-popup");
                             }
                           }
                         </script>
                       </head>
                       <body>
-                        <div class='details-popup' id='popup'></div>
-                        <div class='pages'><button class='page no-violation-found' onclick="show('page1player1name')" id=page1player1name><p class='page-title'>Player 1 Name Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page2player1mascot')" id=page2player1mascot><p class='page-title'>Player 1 Mascot Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page3player2name')" id=page3player2name><p class='page-title'>Player 1 Name Screen</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page4player2mascot')" id=page4player2mascot><p class='page-title'>Player 2 Mascot Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page5firstWelcomeScreen')" id=page5firstWelcomeScreen><p class='page-title'>First Welcome Page</p><p class='page-violations'>0 issues</p></button><button class='page ' onclick="show('page6ActivityScreen')" id=page6ActivityScreen><p class='page-title'>Activity Page</p><p class='page-violations'>1 issue</p></button><button class='page no-violation-found' onclick="show('page6ActivityScreenWithHelpPopupOpen')" id=page6ActivityScreenWithHelpPopupOpen><p class='page-title'>Activity With Help Text Popup Opened</p><p class='page-violations'>0 issues</p></button></div></body></html>
+                        <div class='pages'><button class='page no-violation-found' onclick="show('page1player1name')" id=page1player1name><p class='page-title'>Player 1 Name Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page2player1mascot')" id=page2player1mascot><p class='page-title'>Player 1 Mascot Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page3player2name')" id=page3player2name><p class='page-title'>Player 1 Name Screen</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page4player2mascot')" id=page4player2mascot><p class='page-title'>Player 2 Mascot Page</p><p class='page-violations'>0 issues</p></button><button class='page no-violation-found' onclick="show('page5firstWelcomeScreen')" id=page5firstWelcomeScreen><p class='page-title'>First Welcome Page</p><p class='page-violations'>0 issues</p></button><button class='page ' onclick="show('page6ActivityScreen')" id=page6ActivityScreen><p class='page-title'>Activity Page</p><p class='page-violations'>1 issue</p></button><button class='page no-violation-found' onclick="show('page6ActivityScreenWithHelpPopupOpen')" id=page6ActivityScreenWithHelpPopupOpen><p class='page-title'>Activity With Help Text Popup Opened</p><p class='page-violations'>0 issues</p></button></div><div class='details-popup show-popup' id='popup'></div></body></html>
