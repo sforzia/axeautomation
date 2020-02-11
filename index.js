@@ -1,7 +1,12 @@
 const fs = require("fs");
 const open = require("open");
 var AxeBuilder = require("axe-webdriverjs");
-var { Builder, By, Key, until } = require("selenium-webdriver");
+var {
+  Builder,
+  By,
+  Key,
+  until
+} = require("selenium-webdriver");
 
 (async function example() {
   let violations = {};
@@ -25,8 +30,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     page4player2mascot: "Player 2 Mascot Page",
     page5firstWelcomeScreen: "First Welcome Page",
     page6ActivityScreen: "Activity Page",
-    page6ActivityScreenWithHelpPopupOpen:
-      "Activity With Help Text Popup Opened",
+    page6ActivityScreenWithHelpPopupOpen: "Activity With Help Text Popup Opened",
     page7GreetingScreen: "Greetings Page",
     page8ResultScreen: "Result Screen",
     page9TakeScreenShotScreen: "Take Screenshot Page",
@@ -57,10 +61,13 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
       .maximize();
     await driver.get(navigateTo);
     await driver.wait(until.elementLocated(By.id("input__playername")), 40000); // page loaded
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     await driver
       .findElement(By.id("input__playername"))
@@ -68,10 +75,13 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(1000);
     await driver.findElement(By.id("player_next_name")).click();
     await driver.sleep(1000);
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     let randomMascot = mascots.splice(
       Math.floor(Math.random() * mascots.length),
@@ -83,10 +93,13 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(300);
     await driver.findElement(By.id("player_next_character")).click();
     await driver.sleep(300);
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     await driver
       .findElement(By.id("input__playername"))
@@ -94,10 +107,13 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(500);
     await driver.findElement(By.id("player_next_name")).click();
     await driver.sleep(500);
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     randomMascot = mascots.splice(
       Math.floor(Math.random() * mascots.length),
@@ -109,26 +125,35 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(300);
     await driver.findElement(By.id("player_next_character")).click();
     await driver.sleep(300);
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     const readyButton = driver.findElement(By.id("gameReadyButton"));
     await readyButton.click();
     await driver.sleep(300);
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     const popupHeader1 = await driver.findElement(By.id("popupHeader1"));
     await popupHeader1.click();
     await driver.sleep(300);
-    await AxeBuilder(driver).analyze(function(err, results) {
+    await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
-      violations[pages.shift()] = { error, result };
+      violations[pages.shift()] = {
+        error,
+        result
+      };
     });
     const popupHeader1Close = await driver.findElement(
       By.id("closePopupPlayer1")
@@ -155,7 +180,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
         while (
           dragItems.length &&
           (await activityArea[0].getAttribute("class")).indexOf("ng-hide") ===
-            -1
+          -1
         ) {
           let selectedCard = dragItems[0];
           const dragItemValue = await selectedCard.getAttribute("data-value");
@@ -241,7 +266,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
     console.log("catch: ", ex);
   } finally {
     const fileName = `test_report_${fileDescriptionDev}_${buildToTest}_${new Date().getTime()}.json`;
-    fs.writeFile(fileName, JSON.stringify(violations), "utf8", function(err) {
+    fs.writeFile(fileName, JSON.stringify(violations), "utf8", function (err) {
       if (err) {
         console.log(
           "An error occurred while writing file to the system: ",
@@ -258,10 +283,11 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
                         <link rel="stylesheet" href="style.css">
                         <script>
                           const data = ${JSON.stringify(violations)};
+                          const mapping = ${JSON.stringify(pagesMapping)};
                           function show(page) {
                             if(data && page && data[page] && !data[page].error && data[page].result && data[page].result.length) {
                               let v = data[page].result;
-                              let popupData = '<div class="violations">';
+                              let popupData = '<p class="page-title">' + mapping[page] + '</p><div class="violations">';
                               for(let iter = 0; iter < v.length; v++) {
                                 let _v = v[iter];
                                 popupData += '<div class="violation">';
@@ -302,7 +328,7 @@ var { Builder, By, Key, until } = require("selenium-webdriver");
         html += pages;
         html +=
           "</div><div class='details-popup show-popup' id='popup'></div></body></html>";
-        fs.writeFile("index.html", html, "utf8", function(err) {
+        fs.writeFile("index.html", html, "utf8", function (err) {
           console.log("file written");
           if (!err) {
             open("index.html");
