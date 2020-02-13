@@ -282,52 +282,12 @@ var {
                         <title>Test Report</title>
                         <link rel="stylesheet" href="style.css">
                         <script>
-                          const data = ${JSON.stringify(violations)};
+                          const violations = ${JSON.stringify(violations)};
                           const mapping = ${JSON.stringify(pagesMapping)};
-                          function show(page) {
-                            if(data && page && data[page] && !data[page].error && data[page].result && data[page].result.length) {
-                              let v = data[page].result;
-                              let popupData = '<p class="page-title">' + mapping[page] + '</p><div class="violations">';
-                              for(let iter = 0; iter < v.length; v++) {
-                                let _v = v[iter];
-                                popupData += '<div class="violation">';
-                                popupData += '<p class="description">Description: ' + _v.description + '</p>';
-                                popupData += '<p class="help">Help: ' + _v.help + '</p>';
-                                popupData += '<p class="impact">Impact: ' + _v.impact + '</p><p>Impacted nodes/elements:</p>';
-                                for(let iter2 = 0; iter2 < _v.nodes.length; iter2++) {
-                                  let node = _v.nodes[iter2];
-                                  popupData += '<div class="violation-node">';
-                                  popupData += '<p class="f-summary">Failure Summary: ' + node.failureSummary + '</p>';
-                                  popupData += '<p class="html">Node HTML: <xmp>' + node.html + '</xmp></p>';
-                                  popupData += '<p class="identifier">Identifier(s): ' + node.target.join(" ") + '</p>';
-                                }
-                                popupData += '<p class="tags">WCAG tags: ' + _v.tags.join(", ") + '</p></div>';
-                              }
-                              popupData += '</div>';
-                              console.log(popupData);
-                              document.getElementById('popup').innerHTML = popupData;
-                              document.getElementById("popup").classList.add("show-popup");
-                            }
-                          }
                         </script>
                       </head>
                       <body>
-                        <div class='pages'>`;
-        let pages = "";
-        for (let page in violations) {
-          const item = violations[page];
-          if (item.error) {
-            pages += `<button class='page' disabled='disabled' id=${page}><p class='page-title'>${pagesMapping[page]}</p><p class='page-violations'>Error while assessing, unable to test current page</p></button>`;
-          } else {
-            let check = item.result.length == 1 ? "issue" : "issues";
-            let disabled = item.result.length === 0 ? "disabled" : false;
-            let noV = item.result.length == 0 ? "no-violation-found" : "";
-            pages += `<button class='page ${noV}' onclick="show('${page}')" id=${page}><p class='page-title'>${pagesMapping[page]}</p><p class='page-violations'>${item.result.length} ${check}</p></button>`;
-          }
-        }
-        html += pages;
-        html +=
-          "</div><div class='details-popup show-popup' id='popup'></div></body></html>";
+                      <div id='parent'></div><script src="script.js"></script></body></html>`;
         fs.writeFile("index.html", html, "utf8", function (err) {
           console.log("file written");
           if (!err) {
