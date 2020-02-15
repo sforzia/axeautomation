@@ -34,7 +34,7 @@ const createTable = (violations, page) => {
     if (!violations.length) {
         return "<p class='page-violations'>No issues found on selected page.</p>";
     }
-    const headers = ['id', 'description', 'help', 'impact', {
+    const headers = ['id', 'description', 'help', 'impact', 'tags', {
         'nodes': ['html']
     }];
     const headerMapping = {
@@ -42,7 +42,8 @@ const createTable = (violations, page) => {
         'description': "Description",
         'help': 'Help',
         'html': 'HTML Element',
-        'impact': 'Impact'
+        'impact': 'Impact',
+        'tags': 'WCAG Tags'
     };
     let table = '<table border=2 style="border-collapse: collapse;" id=' + page + '><thead>';
     for (let i = 0; i < headers.length; i++) {
@@ -67,7 +68,15 @@ const createTable = (violations, page) => {
         for (let j = 0; j < headers.length; j++) {
             const header = headers[j];
             if (typeof header == 'string') {
-                table += '<td class="' + header + '">' + violation[header] + '</td>';
+                if (header == 'tags') {
+                    table += '<td><ul>';
+                    for (let tagIter = 0; tagIter < violation[header].length; tagIter++) {
+                        table += '<li>' + violation[header][tagIter] + '</li>';
+                    }
+                    table += '</ul></td>';
+                } else {
+                    table += '<td class="' + header + '">' + violation[header] + '</td>';
+                }
             } else if (typeof header == 'object') {
                 table += '<td>';
                 const keys = Object.keys(header);
@@ -103,7 +112,7 @@ const createTable = (violations, page) => {
 
 const createAccordion = cb => {
     let pages = "";
-    pages += `<div class="pageinfo"><p>Page Title: <span>${title}</span></p><p>Page URL: <span>${url}</span></p></div>`;
+    pages += `<div class="pageinfo"><p>Activity Title: <span>${title}</span></p><p>Activity URL: <span>${url}</span></p></div>`;
     for (let page in violations) {
         const item = violations[page];
         if (item.error) {
