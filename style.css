@@ -1,7 +1,7 @@
 html,
 body {
   padding: 0;
-  margin: 10px;
+  margin: 0 2px;
 }
 
 xmp {
@@ -20,9 +20,31 @@ xmp {
   position: relative;
 }
 
-.details-popup .page-title {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 22px;
+.pageinfo {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background: #0d5759;
+  border-radius: 5px;
+  padding: 10px 0;
+  color: white;
+}
+
+.pageinfo p {
+  width: 680px;
+  margin: 8px 0;
+  text-align: left;
+}
+
+.pageinfo p span {
+  font-weight: 400;
+}
+
+.details-popup .page-title,
+.pageinfo {
+  font-family: Calibri, Helvetica, sans-serif;
+  font-size: 18px;
   font-weight: 700;
 }
 
@@ -72,8 +94,9 @@ xmp {
 
 /*******/
 .accordion {
-  background-color: #eee;
-  color: #444;
+  background-color: #318490;
+  color: #fff;
+  font-weight: 700;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -81,11 +104,13 @@ xmp {
   border: none;
   outline: none;
   transition: 0.4s;
+  margin: 3px 0;
+  border-radius: 5px;
 }
 
 .active,
 .accordion:hover {
-  background-color: #ccc;
+  background-color: #40608c;
 }
 
 .panel {
@@ -93,4 +118,17 @@ xmp {
   background-color: white;
   display: none;
   overflow: hidden;
+}
+
+table th,
+table td {
+  padding: 5px;
+}
+
+th.nodes {
+  width: 30%;
+}
+
+td.impact {
+  text-align: center;
 }

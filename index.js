@@ -17,11 +17,11 @@ var {
     "page4player2mascot",
     "page5firstWelcomeScreen",
     "page6ActivityScreen",
-    "page6ActivityScreenWithHelpPopupOpen",
-    "page7GreetingScreen",
-    "page8ResultScreen",
-    "page9TakeScreenShotScreen",
-    "page10FinishScreen"
+    "page7ActivityScreenWithHelpPopupOpen",
+    "page8GreetingScreen",
+    "page9ResultScreen",
+    "page10TakeScreenShotScreen",
+    "page11FinishScreen"
   ];
   let pagesMapping = {
     page1player1name: "Player 1 Name Page",
@@ -30,11 +30,11 @@ var {
     page4player2mascot: "Player 2 Mascot Page",
     page5firstWelcomeScreen: "First Welcome Page",
     page6ActivityScreen: "Activity Page",
-    page6ActivityScreenWithHelpPopupOpen: "Activity With Help Text Popup Opened",
-    page7GreetingScreen: "Greetings Page",
-    page8ResultScreen: "Result Screen",
-    page9TakeScreenShotScreen: "Take Screenshot Page",
-    page10FinishScreen: "Finish Screen"
+    page7ActivityScreenWithHelpPopupOpen: "Activity With Help Text Popup Opened",
+    page8GreetingScreen: "Greetings Page",
+    page9ResultScreen: "Result Screen",
+    page10TakeScreenShotScreen: "Take Screenshot Page",
+    page11FinishScreen: "Finish Screen"
   };
   const baseURL = "http://magicwebs.magicsw.com/SchoolJam_Games/schooljam";
   let buildToTest = "pairs";
@@ -53,6 +53,7 @@ var {
   let navigateTo = baseURL + environment + buildToTest;
   console.log("Navigating to: ", navigateTo);
   const mascots = [0, 1, 2, 3, 4, 5];
+  let pageTitle = '';
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     await driver
@@ -61,6 +62,7 @@ var {
       .maximize();
     await driver.get(navigateTo);
     await driver.wait(until.elementLocated(By.id("input__playername")), 40000); // page loaded
+    pageTitle = await driver.getTitle();
     await AxeBuilder(driver).analyze(function (err, results) {
       const error = err ? err : null;
       const result = results ? results.violations : {};
@@ -282,6 +284,8 @@ var {
                         <title>Test Report</title>
                         <link rel="stylesheet" href="style.css">
                         <script>
+                          const url = ${JSON.stringify(navigateTo)};
+                          const title = ${JSON.stringify(pageTitle)};
                           const violations = ${JSON.stringify(violations)};
                           const mapping = ${JSON.stringify(pagesMapping)};
                         </script>
