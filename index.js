@@ -248,8 +248,24 @@ var {
     let nextDoneFinishButton = await driver.findElement(
       By.id("nextDoneFinishButton")
     );
+    await AxeBuilder(driver).analyze(function (err, results) {
+      const error = err ? err : null;
+      const result = results ? results.violations : {};
+      violations[pages.shift()] = {
+        error,
+        result
+      };
+    });
     await nextDoneFinishButton.click();
     await driver.sleep(2000);
+    await AxeBuilder(driver).analyze(function (err, results) {
+      const error = err ? err : null;
+      const result = results ? results.violations : {};
+      violations[pages.shift()] = {
+        error,
+        result
+      };
+    });
     nextDoneFinishButton = await driver.findElement(
       By.id("nextDoneFinishButton")
     );
@@ -258,11 +274,27 @@ var {
     let takeScreenShotButton = await driver.findElement(
       By.id("take_screenshot_action_button")
     );
+    await AxeBuilder(driver).analyze(function (err, results) {
+      const error = err ? err : null;
+      const result = results ? results.violations : {};
+      violations[pages.shift()] = {
+        error,
+        result
+      };
+    });
     await takeScreenShotButton.click();
     await driver.sleep(3500);
     nextDoneFinishButton = await driver.findElement(
       By.id("nextDoneFinishButton")
     );
+    await AxeBuilder(driver).analyze(function (err, results) {
+      const error = err ? err : null;
+      const result = results ? results.violations : {};
+      violations[pages.shift()] = {
+        error,
+        result
+      };
+    });
     await nextDoneFinishButton.click();
   } catch (ex) {
     console.log("catch: ", ex);
